@@ -1,0 +1,654 @@
+/* =========================================
+   TURKAY SPACE - MODERN CSS (TÜM HATALAR DÜZELTİLDİ)
+   ========================================= */
+
+:root {
+    --bg-color: #0B0D17;
+    --bg-darker: #05060a;
+    --primary: #3A86FF;
+    --secondary: #8338ec;
+    --text-main: #EDF2F4;
+    --text-muted: #8D99AE;
+    --glass: rgba(255, 255, 255, 0.05);
+    --border-glass: rgba(255, 255, 255, 0.1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* ***************************************
+ * DÜZELTME 1: Arkaplanı 'body' etiketine taşıyoruz
+ * *************************************** */
+body {
+    /* Arkaplanı tüm sayfaya yay ve sabitle (parallax) */
+    background: linear-gradient(rgba(11, 13, 23, 0.8), rgba(11, 13, 23, 0.8)), url('../assets/images/wp.jpg') no-repeat center center fixed;
+    background-size: cover;
+    
+    color: var(--text-main);
+    font-family: 'Poppins', sans-serif;
+    overflow-x: hidden;
+}
+
+a { text-decoration: none; color: inherit; transition: 0.3s; }
+ul { list-style: none; }
+
+/* --- PRELOADER --- */
+#preloader {
+    position: fixed; inset: 0;
+    background: #000; z-index: 9999;
+    display: flex; justify-content: center; align-items: center;
+    transition: opacity 0.5s ease, visibility 0.5s;
+}
+#preloader.loaded { opacity: 0; visibility: hidden; }
+
+.loader-content { text-align: center; }
+.rocket-animation { font-size: 4rem; color: var(--primary); animation: float 2s infinite ease-in-out; }
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+
+.progress-bar {
+    width: 200px; height: 4px; background: #333; margin: 20px auto; border-radius: 2px;
+}
+.progress {
+    width: 0%; height: 100%; background: var(--primary);
+    animation: loading 2s ease-in-out forwards;
+}
+@keyframes loading { to { width: 100%; } }
+
+/* --- NAVBAR --- */
+.site-header {
+    position: fixed; top: 0; width: 100%; z-index: 1000;
+    background: rgba(11, 13, 23, 0.8);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border-glass);
+    padding: 1rem 0;
+}
+.navbar-container {
+    display: flex; justify-content: space-between; align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+.logo { font-family: 'Orbitron', sans-serif; font-size: 1.5rem; font-weight: bold; }
+.highlight { color: var(--primary); }
+
+.nav-links { display: flex; align-items: center; gap: 2rem; }
+.nav-links a { font-size: 0.9rem; opacity: 0.8; }
+.nav-links a:hover, .nav-links a.active { opacity: 1; color: var(--primary); }
+
+.btn-contact {
+    border: 1px solid var(--primary); padding: 5px 15px; border-radius: 20px;
+}
+.btn-contact:hover { background: var(--primary); color: #fff; }
+
+.mobile-menu-toggle { 
+    display: none; 
+}
+
+
+/* --- HERO SECTION --- */
+.hero-section {
+    height: 100vh; position: relative;
+    display: flex; align-items: center; justify-content: center; text-align: center;
+    
+    /* * DÜZELTME 2: Arkaplanı buradan sildik, çünkü artık 'body'de.
+     * Sadece bir overlay (karartma) bırakıyoruz ki 'Hero' biraz daha vurgulu olsun.
+     */
+    background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.0));
+}
+.hero-content h1 {
+    font-size: 4rem; font-family: 'Orbitron', sans-serif; margin: 1rem 0;
+    line-height: 1.1;
+}
+.text-gradient {
+    background: linear-gradient(to right, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+.hero-buttons { margin-top: 2rem; display: flex; gap: 1rem; justify-content: center; }
+
+.btn { padding: 12px 30px; border-radius: 30px; font-weight: 600; cursor: pointer; }
+.btn-primary { background: var(--primary); color: #fff; border: none; }
+.btn-primary:hover { box-shadow: 0 0 20px rgba(58, 134, 255, 0.5); }
+.btn-outline { background: transparent; border: 2px solid rgba(255,255,255,0.3); color: #fff; }
+.btn-outline:hover { border-color: #fff; }
+
+/* --- GENEL SECTION AYARLARI --- */
+.section-padding { padding: 5rem 0; }
+
+/* * DÜZELTME 3: Düz renk arkaplanı (bg-darker) kaldırıp,
+ * arkaplanı gösteren cam efektiyle değiştiriyoruz.
+ */
+.bg-darker { 
+    /* Yarı şeffaf siyah panel (Görünürlük için) */
+    background-color: rgba(0, 0, 0, 0.3); 
+    border-top: 1px solid var(--border-glass);
+    border-bottom: 1px solid var(--border-glass);
+    /* Hafif buzlu cam efekti */
+    backdrop-filter: blur(5px); 
+}
+.container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+.section-header { text-align: center; margin-bottom: 3rem; }
+.section-header h2 { font-size: 2.5rem; margin-bottom: 10px; }
+.section-header p { color: var(--text-muted); }
+
+/* --- GRID YAPISI --- */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+/* --- KART TASARIMLARI (Projeler) --- */
+.card {
+    background: var(--glass);
+    border: 1px solid var(--border-glass);
+    border-radius: 15px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+.card:hover { transform: translateY(-10px); border-color: var(--primary); }
+
+.card-image { height: 200px; position: relative; }
+.card-image img { width: 100%; height: 100%; object-fit: cover; }
+.category-tag {
+    position: absolute; top: 15px; right: 15px;
+    background: var(--primary); padding: 5px 10px;
+    border-radius: 5px; font-size: 0.8rem; font-weight: bold;
+}
+
+.card-content { padding: 1.5rem; }
+.card-content h3 { margin-bottom: 0.5rem; font-size: 1.2rem; }
+.card-content p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem; }
+.read-more { color: var(--primary); font-weight: 600; font-size: 0.9rem; }
+
+/* --- ETKİNLİK KARTLARI --- */
+.event-card { display: flex; align-items: center; padding: 1rem; }
+.date-box {
+    background: var(--bg-darker); border: 1px solid var(--primary);
+    padding: 15px; border-radius: 10px; text-align: center;
+    min-width: 80px; margin-right: 1.5rem;
+}
+.date-box .day { display: block; font-size: 1.5rem; font-weight: bold; color: #fff; }
+.date-box .month { display: block; font-size: 0.8rem; color: var(--primary); }
+.btn-small {
+    display: inline-block; margin-top: 10px; padding: 5px 15px;
+    background: rgba(58, 134, 255, 0.1); color: var(--primary);
+    border-radius: 5px; font-size: 0.8rem;
+}
+
+/* --- FOOTER --- */
+footer {
+    background: #000; padding-top: 4rem; margin-top: 4rem; border-top: 1px solid var(--border-glass);
+}
+.footer-content {
+    display: flex; justify-content: space-between; align-items: center; padding-bottom: 2rem;
+}
+.footer-social a { font-size: 1.5rem; margin-left: 20px; color: var(--text-muted); }
+.footer-social a:hover { color: var(--primary); }
+.footer-bottom {
+    text-align: center; padding: 1rem; background: #05060a; color: var(--text-muted); font-size: 0.8rem;
+}
+
+/* =========================================
+   7. EKİP BÖLÜMÜ (TEAM SECTION)
+   ========================================= */
+
+.team-nav {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 3rem;
+}
+
+.team-tab-btn {
+    background: transparent;
+    border: 1px solid var(--border-glass);
+    color: var(--text-muted);
+    padding: 0.6rem 1.5rem;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.team-tab-btn:hover {
+    background: var(--glass);
+    color: var(--text-main);
+}
+
+.team-tab-btn.active {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+}
+
+.team-tab-pane {
+    display: none; 
+    animation: fadeIn 0.5s ease;
+}
+
+.team-tab-pane.active {
+    display: block; 
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.team-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}
+
+.member-card {
+    background: var(--glass);
+    border: 1px solid var(--border-glass);
+    border-radius: 15px;
+    overflow: hidden;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.member-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.member-card .card-image {
+    height: 200px; 
+    width: 100%;
+}
+
+.member-card .card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.member-card .card-content {
+    padding: 1rem;
+}
+
+.member-card .card-content h3 {
+    font-size: 1.1rem;
+    margin: 0;
+    color: var(--text-main);
+}
+
+.member-card .card-content p.role {
+    font-size: 0.85rem;
+    color: var(--primary);
+    font-weight: 500;
+    margin: 0.25rem 0 0;
+}
+
+.member-card.lead {
+    border: 2px solid var(--secondary);
+}
+
+.member-card.lead .card-content p.role {
+    color: var(--secondary);
+}
+/* =========================================
+   8. İLETİŞİM BÖLÜMÜ (CONTACT SECTION)
+   ========================================= */
+
+.contact-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 2fr; 
+    gap: 2rem;
+}
+
+.contact-info {
+    padding: 2rem;
+}
+.contact-info h3 {
+    margin-bottom: 1rem;
+    color: var(--text-main);
+}
+.contact-info p {
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+}
+
+.info-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+.info-item i {
+    font-size: 1.5rem;
+    color: var(--primary);
+    margin-top: 5px;
+}
+.info-item h4 {
+    color: var(--text-main);
+    margin: 0 0 5px 0;
+}
+.info-item p {
+    color: var(--text-muted);
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.contact-social {
+    display: flex;
+    gap: 1.5rem;
+}
+.contact-social a i {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    transition: color 0.3s ease;
+}
+.contact-social a:hover i {
+    color: var(--primary);
+}
+
+
+.contact-form {
+    padding: 2rem;
+}
+.contact-form h3 {
+    margin-bottom: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    background: var(--bg-darker);
+    border: 1px solid var(--border-glass);
+    border-radius: 5px;
+    color: var(--text-main);
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+}
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+.form-group textarea {
+    resize: vertical;
+}
+
+.form-status-message {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    text-align: center;
+    padding: 10px;
+    border-radius: 5px;
+    display: none; 
+}
+.form-status-message.success {
+    background: rgba(0, 255, 150, 0.1);
+    color: #00ff96;
+    display: block;
+}
+.form-status-message.error {
+    background: rgba(255, 107, 107, 0.1);
+    color: #ff6b6b;
+    display: block;
+}
+.form-status-message.loading {
+    background: rgba(58, 134, 255, 0.1);
+    color: var(--primary);
+    display: block;
+}
+
+
+/* =========================================
+   9. ÜYE OL (SIGNUP) MODAL STİLLERİ
+   ========================================= */
+
+.btn-signup {
+    background: var(--secondary); 
+    color: #fff;
+    padding: 5px 15px;
+    border-radius: 20px;
+    border: none;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-left: 1rem; 
+}
+
+.btn-signup i {
+    margin-left: 5px;
+}
+
+.btn-signup:hover {
+    background: #a162f7;
+    transform: translateY(-2px);
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.85); 
+    z-index: 2000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s;
+}
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    background: var(--bg-darker);
+    border: 1px solid var(--border-glass);
+    padding: 2.5rem;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+    /* *** DÜZELTME BURADA *** */
+    max-height: 90vh; /* Ekranın %90'ından uzun olamasın */
+    overflow-y: auto; /* Eğer uzunsa, kendi içinde kaydırma çubuğu çıksın */
+}
+.modal-overlay.active .modal-content {
+    transform: scale(1);
+}
+
+.modal-content h3 {
+    margin-top: 0;
+    text-align: center;
+    color: var(--text-main);
+}
+.modal-content p {
+    text-align: center;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+}
+
+.close-modal {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 2rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+.close-modal:hover {
+    color: var(--text-main);
+}
+
+.modal-content .contact-form {
+    padding: 0; 
+}
+
+/* =========================================
+   10. MOBİL UYUMLULUK (MEDIA QUERIES)
+   ========================================= */
+
+@media (max-width: 900px) {
+    .contact-wrapper {
+        grid-template-columns: 1fr; 
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-content h1 { font-size: 2.5rem; }
+    
+    .nav-links { 
+        display: none; 
+        position: absolute;
+        top: 65px; 
+        left: 0;
+        width: 100%;
+        background: var(--bg-darker);
+        flex-direction: column; 
+        padding: 1rem 0;
+        border-top: 1px solid var(--border-glass);
+        gap: 0; 
+    }
+    .nav-links li {
+        width: 100%;
+        text-align: center;
+        padding: 0.5rem 0;
+    }
+    .nav-links a {
+        padding: 0.5rem 0;
+    }
+
+    .nav-links.active {
+        display: flex;
+    }
+
+    .mobile-menu-toggle { 
+        display: block; 
+        font-size: 1.5rem; 
+        cursor: pointer; 
+        z-index: 1001; 
+    }
+    
+    .btn-signup {
+        width: 80%;
+        margin: 1rem auto;
+        padding: 10px;
+    }
+} /* <--- *** HATA BURADAYDI, KAPANIŞ PARANTEZİ EKLENDİ *** */
+
+/* =========================================
+   11. MODAL İÇİ AYIRICI VE WHATSAPP BUTONU
+   ========================================= */
+/* (Bu stiller @media bloğunun dışına taşındı) */
+
+/* "veya" yazan ayırıcı çizgi */
+.modal-divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: var(--text-muted);
+    margin: 1.5rem 0;
+}
+.modal-divider::before,
+.modal-divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid var(--border-glass);
+}
+.modal-divider span {
+    padding: 0 1rem;
+    font-size: 0.9rem;
+}
+
+/* Yeşil WhatsApp Butonu */
+.btn-whatsapp {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px; /* İkon ile yazı arası boşluk */
+    width: 100%;
+    padding: 0.8rem 1.5rem;
+    border-radius: 5px;
+    background-color: #25D366; /* WhatsApp Yeşili */
+    color: #fff;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+.btn-whatsapp:hover {
+    background-color: #1EBE57; /* Biraz daha koyu yeşil */
+    color: #fff;
+}
+.btn-whatsapp i {
+    font-size: 1.2rem;
+}
+
+/* =========================================
+   12. PROJE DETAY MODALI STİLLERİ
+   ========================================= */
+/* (Bu stiller @media bloğunun dışına taşındı) */
+
+/* Modal'ın iç padding'ini sıfırlıyoruz ki görsel tam otursun */
+.project-detail-content {
+    display: block; /* Dikey yığılma için eklendi */
+    padding: 0;
+    max-width: 700px; /* Diğer modal'dan biraz daha geniş olabilir */
+}
+
+/* Modal'ın içindeki görsel */
+.project-detail-image {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    /* Üst köşeleri de oval yap */
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+/* Modal'ın metin alanı (Burası hataya neden oluyordu) */
+.project-detail-text {
+    display: block; /* Eklendi */
+    visibility: visible; /* Eklendi */
+    padding: 2rem;
+}
+
+/* Kategori etiketi (Karttakiyle aynı stil) */
+.project-detail-text .category-tag {
+    position: static; /* Karttakinden farklı olarak normal akışta */
+    display: inline-block;
+    margin-bottom: 1rem;
+}
+
+.project-detail-text h3 {
+    font-size: 1.8rem;
+    color: var(--text-main);
+    margin-bottom: 1rem;
+}
+
+.project-detail-text p {
+    color: var(--text-muted);
+    line-height: 1.7;
+}
