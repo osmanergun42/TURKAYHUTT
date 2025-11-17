@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TurkaySpace - Yönetim Paneli</title>
+    
+    <!-- Ana CSS (Değişkenleri kullanmak için) -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Admin'e özel CSS -->
+    <link rel="stylesheet" href="css/admin.css">
+    
+    <!-- İkonlar için Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Grafik kütüphanesi (Chart.js) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+</head>
+<body>
+
+    <!-- 
+      ********************************
+      * 1. GİRİŞ EKRANI
+      ********************************
+    -->
+    <div id="login-screen" class="admin-container">
+        <div class="login-box card">
+            <h2>TURKAY<span class="highlight">ADMIN</span></h2>
+            <p>Yönetim Paneline Giriş Yap</p>
+            
+            <button class="btn-google" id="google-login-button">
+                <i class="fab fa-google"></i>
+                Google ile Giriş Yap
+            </button>
+            
+            <p id="login-error-msg" class="form-status-message error" style="display: none; margin-top: 1rem;"></p>
+        </div>
+    </div>
+
+    <!-- 
+      ********************************
+      * 2. KONTROL PANELİ (Giriş Sonrası Gizli)
+      ********************************
+    -->
+    <div id="dashboard-screen" class="admin-dashboard" style="display: none;">
+        
+        <!-- Sol Menü (Sidebar) -->
+        <aside class="admin-sidebar">
+            <div class="sidebar-logo">
+                TURKAY<span class="highlight">ADMIN</span>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <!-- Varsayılan 'active' sekme Dashboard oldu -->
+                    <li><a href="#" class="nav-tab active" data-tab="tab-dashboard"><i class="fas fa-chart-pie"></i> Dashboard</a></li>
+                    
+                    <li><a href="#" class="nav-tab" data-tab="tab-projects"><i class="fas fa-rocket"></i> Proje Yönetimi</a></li>
+                    <li><a href="#" class="nav-tab" data-tab="tab-events"><i class="fas fa-calendar-alt"></i> Etkinlik Yönetimi</a></li>
+                    <li><a href="#" class="nav-tab" data-tab="tab-members"><i class="fas fa-users"></i> Üye Başvuruları</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <p id="admin-email-display">admin@mail.com</p>
+                <button id="logout-button" class="btn-logout"><i class="fas fa-sign-out-alt"></i> Çıkış Yap</button>
+            </div>
+        </aside>
+
+        <!-- Ana İçerik Alanı -->
+        <main class="admin-content">
+            
+            <!-- 1. Dashboard Sekmesi (Yeni) -->
+            <div id="tab-dashboard" class="tab-content active">
+                <h2>Dashboard</h2>
+                
+                <!-- İstatistik Kartları -->
+                <div class="stat-card-grid">
+                    <div class="stat-card card">
+                        <i class="fas fa-rocket"></i>
+                        <div class="stat-info">
+                            <span class="stat-number" id="total-projects-stat">0</span>
+                            <span class="stat-label">Toplam Proje</span>
+                        </div>
+                    </div>
+                    <div class="stat-card card">
+                        <i class="fas fa-calendar-alt"></i>
+                        <div class="stat-info">
+                            <span class="stat-number" id="total-events-stat">0</span>
+                            <span class="stat-label">Toplam Etkinlik</span>
+                        </div>
+                    </div>
+                    <div class="stat-card card">
+                        <i class="fas fa-user-check"></i>
+                        <div class="stat-info">
+                            <span class="stat-number" id="approved-members-stat">0</span>
+                            <span class="stat-label">Onaylı Üye</span>
+                        </div>
+                    </div>
+                    <div class="stat-card card">
+                        <i class="fas fa-user-clock"></i>
+                        <div class="stat-info">
+                            <span class="stat-number" id="pending-members-stat">0</span>
+                            <span class="stat-label">Bekleyen Başvuru</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Grafik Alanı -->
+                <div class="chart-container card">
+                    <h3>Üye Durum Dağılımı</h3>
+                    <canvas id="member-chart"></canvas>
+                </div>
+
+            </div>
+
+            <!-- 2. Proje Yönetimi Sekmesi (Artık 'active' değil) -->
+            <div id="tab-projects" class="tab-content" style="display: none;">
+                <h2>Proje Yönetimi</h2>
+                <div class="content-wrapper">
+                    <!-- Yeni Proje Ekleme Formu -->
+                    <div class="card admin-form-card">
+                        <form id="add-project-form" class="contact-form">
+                            <h3>Yeni Proje Ekle</h3>
+                            <div class="form-group">
+                                <label for="project-title">Proje Başlığı</label>
+                                <input type="text" id="project-title" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="project-category">Kategori (Örn: Roket, İHA)</label>
+                                <input type="text" id="project-category" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="project-desc">Açıklama</label>
+                                <textarea id="project-desc" rows="4" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="project-image-file">Proje Görseli Yükle</label>
+                                <input type="file" id="project-image-file" accept="image/png, image/jpeg" required>
+                                <span id="upload-status" class="form-status-message" style="display: none; margin-top: 10px;"></span>
+                            </div>
+                            <button type="submit" class="btn btn-primary" id="add-project-button">Projeyi Kaydet</button>
+                            <div id="project-form-status" class="form-status-message"></div>
+                        </form>
+                    </div>
+                    <!-- Mevcut Projeler Listesi -->
+                    <div class="card admin-list-card">
+                        <h3>Mevcut Projeler</h3>
+                        <div id="project-list-admin" class="item-list">
+                            <!-- Projeler buraya JS ile yüklenecek -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. Etkinlik Yönetimi Sekmesi -->
+            <div id="tab-events" class="tab-content" style="display: none;">
+                <h2>Etkinlik Yönetimi</h2>
+                <div class="content-wrapper">
+                    <!-- Yeni Etkinlik Ekleme Formu -->
+                    <div class="card admin-form-card">
+                        <form id="add-event-form" class="contact-form">
+                            <h3>Yeni Etkinlik Ekle</h3>
+                            <div class="form-group">
+                                <label for="event-title">Etkinlik Başlığı</label>
+                                <input type="text" id="event-title" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="event-date">Tarih</label>
+                                <input type="date" id="event-date" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="event-location">Konum (Örn: Mühendislik Konf. Salonu)</label>
+                                <input type="text" id="event-location" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="event-desc">Kısa Açıklama (Opsiyonel)</label>
+                                <textarea id="event-desc" rows="3"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary" id="add-event-button">Etkinliği Kaydet</button>
+                            <div id="event-form-status" class="form-status-message"></div>
+                        </form>
+                    </div>
+                    <!-- Mevcut Etkinlikler Listesi -->
+                    <div class="card admin-list-card">
+                        <h3>Mevcut Etkinlikler</h3>
+                        <div id="event-list-admin" class="item-list">
+                            <!-- Etkinlikler buraya JS ile yüklenecek -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Üye Yönetimi Sekmesi -->
+            <div id="tab-members" class="tab-content" style="display: none;">
+                <!-- Başlık ve Tümünü Onayla Butonu -->
+                <div class="tab-header">
+                    <h2>Üye Başvuruları</h2>
+                    <button class="btn btn-primary" id="approve-all-button" style="display: none;">
+                        <i class="fas fa-check-double"></i> Tümünü Onayla
+                    </button>
+                </div>
+                <!-- Başvuru Listesi -->
+                <div id="member-list-admin" class="item-list">
+                    <!-- Üye başvuruları buraya JS ile yüklenecek -->
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Admin'e özel JavaScript (Giriş, Veri Ekleme/Silme) -->
+    <script type="module" src="js/admin.js"></script>
+</body>
+</html>
