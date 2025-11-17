@@ -1,5 +1,5 @@
 /* =========================================
-   TURKAY SPACE - MODERN CSS (ARKAPLAN DÜZELTMESİ)
+   TURKAY SPACE - MODERN CSS (TÜM HATALAR DÜZELTİLDİ)
    ========================================= */
 
 :root {
@@ -119,9 +119,12 @@ ul { list-style: none; }
  * arkaplanı gösteren cam efektiyle değiştiriyoruz.
  */
 .bg-darker { 
-    background-color: var(--glass);
+    /* Yarı şeffaf siyah panel (Görünürlük için) */
+    background-color: rgba(0, 0, 0, 0.3); 
     border-top: 1px solid var(--border-glass);
     border-bottom: 1px solid var(--border-glass);
+    /* Hafif buzlu cam efekti */
+    backdrop-filter: blur(5px); 
 }
 .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 .section-header { text-align: center; margin-bottom: 3rem; }
@@ -550,9 +553,12 @@ footer {
         margin: 1rem auto;
         padding: 10px;
     }
-    /* =========================================
+} /* <--- *** HATA BURADAYDI, KAPANIŞ PARANTEZİ EKLENDİ *** */
+
+/* =========================================
    11. MODAL İÇİ AYIRICI VE WHATSAPP BUTONU
    ========================================= */
+/* (Bu stiller @media bloğunun dışına taşındı) */
 
 /* "veya" yazan ayırıcı çizgi */
 .modal-divider {
@@ -600,9 +606,11 @@ footer {
 /* =========================================
    12. PROJE DETAY MODALI STİLLERİ
    ========================================= */
+/* (Bu stiller @media bloğunun dışına taşındı) */
 
 /* Modal'ın iç padding'ini sıfırlıyoruz ki görsel tam otursun */
 .project-detail-content {
+    display: block; /* Dikey yığılma için eklendi */
     padding: 0;
     max-width: 700px; /* Diğer modal'dan biraz daha geniş olabilir */
 }
@@ -617,8 +625,10 @@ footer {
     border-top-right-radius: 15px;
 }
 
-/* Modal'ın metin alanı */
+/* Modal'ın metin alanı (Burası hataya neden oluyordu) */
 .project-detail-text {
+    display: block; /* Eklendi */
+    visibility: visible; /* Eklendi */
     padding: 2rem;
 }
 
@@ -638,5 +648,4 @@ footer {
 .project-detail-text p {
     color: var(--text-muted);
     line-height: 1.7;
-}
 }
