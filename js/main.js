@@ -153,6 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function formatEventDate(dateString) {
         // 'YYYY-MM-DD' formatındaki tarihi 'T00:00:00' ekleyerek saat dilimi
         // sorunlarından kaçınıyoruz (özellikle 'gün' kaymalarından)
+        if (!dateString) return { day: '?', month: '?'}; // Tarih yoksa
         const date = new Date(dateString + 'T00:00:00');
         const day = date.getDate();
         // 'tr-TR' (Türkçe) lokasyonuna göre 'KAS', 'ARA' gibi kısa ay ismi al
@@ -303,7 +304,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // * 12. ÜYE OL FORMU GÖNDERME
+    // * 12. ÜYE OL FORMU GÖNDERME (GÜNCELLENDİ)
     // ----------------------------------------------
     const signupForm = document.getElementById('signup-form');
     const signupStatus = document.getElementById('signup-form-status');
@@ -317,14 +318,18 @@ document.addEventListener('DOMContentLoaded', () => {
             signupStatus.className = 'form-status-message loading';
             signupStatus.textContent = 'Başvurun alınıyor...';
 
+            // *** GÜNCELLEME BURADA: 'studentId' eklendi ***
             const memberData = {
                 name: signupForm['signup-name'].value,
                 email: signupForm['signup-email'].value,
+                studentId: signupForm['signup-student-id'].value, // YENİ EKLENDİ
+                phone: signupForm['signup-phone'].value, // YENİ EKLENDİ
                 department: signupForm['signup-department'].value,
                 year: signupForm['signup-year'].value,
                 appliedAt: new Date(), 
                 status: 'pending' 
             };
+            // *** GÜNCELLEME SONU ***
 
             try {
                 const docRef = await addDoc(collection(db, "newMembers"), memberData);
